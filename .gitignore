@@ -1,3 +1,5 @@
 .venv
 speds/*.*
 speds_modificados/*.*
+build
+dist
