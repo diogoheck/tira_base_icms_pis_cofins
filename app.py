@@ -32,6 +32,7 @@ def float_to_string(valor):
 def recalcular_impostos_pis_cofins_c170(lista_sped):
     novo_sped = []
     passou = False
+    CFOP = ''
     for lista in lista_sped:
         nova_lista = []
         passou = False
@@ -46,8 +47,9 @@ def recalcular_impostos_pis_cofins_c170(lista_sped):
         if registro == 'C100':
             valor_icms_c175 = lista.split('|')[22]
         if registro == 'C170':
+            CFOP_c170 = lista.split('|')[11]
             CST_Pis = lista.split('|')[25]
-            if CST_Pis == '01':
+            if CST_Pis == '01' and CFOP_c170 == '5102':
                 nova_lista = lista.split('|')
                 valor_icms = string_to_float(nova_lista[15])
                 vl_bc_pis = string_to_float(nova_lista[26])
@@ -72,8 +74,9 @@ def recalcular_impostos_pis_cofins_c170(lista_sped):
                     novo_sped.append('|'.join([str(i) for i in nova_lista]))
                     passou = True
         if registro == 'C175':
+            CFOP = lista.split('|')[2]
             CST_Pis = lista.split('|')[5]
-            if CST_Pis == '01':
+            if CST_Pis == '01' and CFOP == '5102':
                 nova_lista = lista.split('|')
                 valor_icms_c175 = string_to_float(valor_icms_c175)
                 vl_bc_pis = string_to_float(nova_lista[6])
@@ -96,7 +99,7 @@ def recalcular_impostos_pis_cofins_c170(lista_sped):
                         valor_novo_pis) if valor_novo_pis > 0 else 0
                     nova_lista[16] = float_to_string(
                         valor_novo_cofins) if valor_novo_cofins > 0 else 0
-                    print(nova_lista)
+                    # print(nova_lista)
                     novo_sped.append('|'.join([str(i) for i in nova_lista]))
                     passou = True
 
